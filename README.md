@@ -1,6 +1,7 @@
 # OSCP Cheatsheet
 - I prepared this cheatsheet as part of my OSCP preperation.
 - I'll keep this updating.
+- For any suggestions mail me contact.saisathvik@gmail.com
 
 # Table of Content
 - [General](#general)
