@@ -766,7 +766,7 @@ lsaenumsid #SID of all users
 # Web Attacks
 
 <aside>
-💡 Cross-platform PHP revershell: ![https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php][https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php]
+💡 Cross-platform PHP revershell: https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php
 </aside>
 
 ## Directory Traversal
