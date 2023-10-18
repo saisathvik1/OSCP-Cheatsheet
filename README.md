@@ -6,8 +6,6 @@
 
 
 # Table of Content
-- [OSCP Cheatsheet](#oscp-cheatsheet)
-- [Table of Content](#table-of-content)
 - [General](#general)
   - [Important Locations](#important-locations)
   - [File Transfers](#file-transfers)
