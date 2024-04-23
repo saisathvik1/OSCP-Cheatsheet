@@ -2,7 +2,7 @@
 
 - 🚀 Prepared as part of my OSCP journey.
 - 🔄 Continuously updated.
-- 📬 Feel free to email me with suggestions: [contact.saisathvik@gmail.com](mailto:contact.saisathvik@gmail.com)
+- 📬 Feel free to email me with suggestions: [saisathvikruppa@proton.me](mailto:saisathvikruppa@proton.me)
 
 
 # Table of Content
