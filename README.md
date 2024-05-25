@@ -4,7 +4,7 @@
 
 Successfully passed the OSCP exam on May 20, 2024. Verify my achievement [here](https://www.credential.net/666b9a86-017d-48fa-894a-5c39ef1d7b7b).
 
-Feel free to reach out with any questions or inquiries at saisathvikruppa@proton.me!
+Feel free to reach out with any questions or inquiries at saisathvikruppa@tutanota.com!
 
 # Cheatsheet
 
