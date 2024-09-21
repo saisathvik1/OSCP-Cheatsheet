@@ -529,7 +529,7 @@ proxychains4 crackmapexec smb 10.10.10.0/24 #Example
 
 - When there’s a scope for bruteforce or hash-cracking then try the following,
     - Have a valid usernames first
-    - Dont firget trying `admin:admin`
+    - Don't forget trying `admin:admin`
     - Try `username:username` as first credential
     - If it’s related to a service, try default passwords.
     - Service name as the username as well as the same name for password.
