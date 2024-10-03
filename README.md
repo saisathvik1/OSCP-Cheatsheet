@@ -5,6 +5,7 @@
 - Successfully passed the OSCP exam on May 20, 2024. Verify my achievement [here](https://www.credential.net/666b9a86-017d-48fa-894a-5c39ef1d7b7b).
 - Feel free to open a pull request if you have any corrections, improvements, or new additions!
 - You can access my cheatsheet from here: https://s4thv1k.com/posts/oscp-cheatsheet/ as well!
+- Helped over 20 individuals in passing their exam:) Please let me know if this helped you too ❤️
 
 # General
 
